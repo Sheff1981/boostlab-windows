@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BoostLab.Client.Networking;
@@ -10,7 +11,7 @@ public static class UdpRouteProbe
     public const int DefaultPort = 51821;
     public const int DefaultSamples = 8;
     public const int DefaultTimeoutMilliseconds = 700;
-    private const string Magic = "BOOSTLAB/PROBE/1";
+    private const string ProbeV2Prefix = "BOOSTLAB/PROBE/2/";
 
     public static async Task<RouteMetrics> MeasureAsync(
         string host,
@@ -33,15 +34,18 @@ public static class UdpRouteProbe
         using var socket = new UdpClient(address.AddressFamily);
         socket.Connect(new IPEndPoint(address, port));
 
-        var payload = Encoding.UTF8.GetBytes(Magic);
         var results = new double?[samples];
         var perSampleTimeout = timeout ?? TimeSpan.FromMilliseconds(DefaultTimeoutMilliseconds);
+        var nonce = CreateNonce();
 
         for (var index = 0; index < samples; index++)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
+            var expected = $"{ProbeV2Prefix}{nonce}/{index}";
+            var payload = Encoding.UTF8.GetBytes(expected);
             var started = Stopwatch.GetTimestamp();
+
             await socket.SendAsync(payload, cancellationToken);
 
             using var sampleCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -49,12 +53,18 @@ public static class UdpRouteProbe
 
             try
             {
-                var response = await socket.ReceiveAsync(sampleCts.Token);
-                var body = Encoding.UTF8.GetString(response.Buffer);
-
-                if (body == Magic)
+                while (!sampleCts.IsCancellationRequested)
                 {
+                    var response = await socket.ReceiveAsync(sampleCts.Token);
+                    var body = Encoding.UTF8.GetString(response.Buffer);
+
+                    if (body != expected)
+                    {
+                        continue;
+                    }
+
                     results[index] = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
+                    break;
                 }
             }
             catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
@@ -69,5 +79,11 @@ public static class UdpRouteProbe
         }
 
         return RouteMetricsCalculator.Calculate(results);
+    }
+
+    private static string CreateNonce()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(8);
+        return Convert.ToHexString(bytes).ToLowerInvariant();
     }
 }
