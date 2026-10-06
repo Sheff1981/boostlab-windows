@@ -5,14 +5,14 @@ using System.Text;
 
 namespace BoostLab.Client.Networking;
 
-public sealed class UdpRouteProbe
+public static class UdpRouteProbe
 {
     public const int DefaultPort = 51821;
     public const int DefaultSamples = 8;
     public const int DefaultTimeoutMilliseconds = 700;
     private const string Magic = "BOOSTLAB/PROBE/1";
 
-    public async Task<RouteMetrics> MeasureAsync(
+    public static async Task<RouteMetrics> MeasureAsync(
         string host,
         int port = DefaultPort,
         int samples = DefaultSamples,
