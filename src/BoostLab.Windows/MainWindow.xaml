@@ -1,0 +1,23 @@
+<Window x:Class="BoostLab.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BOOSTLAB" Height="560" Width="920"
+        MinHeight="480" MinWidth="760">
+    <Grid Margin="28">
+        <StackPanel>
+            <TextBlock Text="BOOSTLAB" FontSize="34" FontWeight="Bold" />
+            <TextBlock Margin="0,8,0,28"
+                       Text="Windows client foundation"
+                       FontSize="16" Opacity="0.7" />
+            <Border Padding="22" CornerRadius="16" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Status" FontWeight="SemiBold" FontSize="18" />
+                    <TextBlock Margin="0,10,0,0"
+                               Text="Protocol integration starts after the Android data path is proven." />
+                    <TextBlock Margin="0,6,0,0"
+                               Text="No traffic is routed by this build." Opacity="0.7" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
