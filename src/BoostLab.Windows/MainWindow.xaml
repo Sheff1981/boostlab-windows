@@ -1,23 +1,56 @@
-<Window x:Class="BoostLab.Client.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="BOOSTLAB" Height="560" Width="920"
-        MinHeight="480" MinWidth="760">
-    <Grid Margin="28">
+<Window
+    x:Class="BoostLab.Client.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="BOOSTLAB">
+
+    <Grid Padding="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <StackPanel>
-            <TextBlock Text="BOOSTLAB" FontSize="34" FontWeight="Bold" />
-            <TextBlock Margin="0,8,0,28"
-                       Text="Windows client foundation"
-                       FontSize="16" Opacity="0.7" />
-            <Border Padding="22" CornerRadius="16" BorderThickness="1">
-                <StackPanel>
-                    <TextBlock Text="Status" FontWeight="SemiBold" FontSize="18" />
-                    <TextBlock Margin="0,10,0,0"
-                               Text="Protocol integration starts after the Android data path is proven." />
-                    <TextBlock Margin="0,6,0,0"
-                               Text="No traffic is routed by this build." Opacity="0.7" />
-                </StackPanel>
-            </Border>
+            <TextBlock
+                Text="BOOSTLAB"
+                FontSize="34"
+                FontWeight="SemiBold" />
+            <TextBlock
+                Margin="0,8,0,0"
+                Text="Modern Windows client · WinUI 3"
+                FontSize="16"
+                Opacity="0.70" />
         </StackPanel>
+
+        <Border
+            Grid.Row="2"
+            Padding="22"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="16">
+            <StackPanel Spacing="10">
+                <TextBlock
+                    Text="Foundation status"
+                    FontSize="18"
+                    FontWeight="SemiBold" />
+                <TextBlock
+                    Text="The Windows client now uses .NET 10 and WinUI 3." />
+                <TextBlock
+                    Text="Networking and WireGuard integration follow the proven Android data path."
+                    TextWrapping="Wrap"
+                    Opacity="0.72" />
+                <InfoBar
+                    IsOpen="True"
+                    IsClosable="False"
+                    Severity="Informational"
+                    Title="Safe baseline"
+                    Message="This build does not route traffic yet." />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
