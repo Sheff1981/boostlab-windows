@@ -8,49 +8,117 @@
     Title="BOOSTLAB">
 
     <Grid Padding="28">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <StackPanel Spacing="18">
+                <StackPanel>
+                    <TextBlock
+                        Text="BOOSTLAB"
+                        FontSize="34"
+                        FontWeight="SemiBold" />
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        Text="Modern Windows client · WinUI 3"
+                        FontSize="16"
+                        Opacity="0.70" />
+                </StackPanel>
 
-        <StackPanel>
-            <TextBlock
-                Text="BOOSTLAB"
-                FontSize="34"
-                FontWeight="SemiBold" />
-            <TextBlock
-                Margin="0,8,0,0"
-                Text="Modern Windows client · WinUI 3"
-                FontSize="16"
-                Opacity="0.70" />
-        </StackPanel>
+                <Border
+                    Padding="22"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16">
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            Text="Route probe"
+                            FontWeight="SemiBold"
+                            FontSize="18" />
 
-        <Border
-            Grid.Row="2"
-            Padding="22"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            CornerRadius="16">
-            <StackPanel Spacing="10">
-                <TextBlock
-                    Text="Foundation status"
-                    FontSize="18"
-                    FontWeight="SemiBold" />
-                <TextBlock
-                    Text="The Windows client now uses .NET 10 and WinUI 3." />
-                <TextBlock
-                    Text="Networking and WireGuard integration follow the proven Android data path."
-                    TextWrapping="Wrap"
-                    Opacity="0.72" />
-                <InfoBar
-                    IsOpen="True"
-                    IsClosable="False"
-                    Severity="Informational"
-                    Title="Safe baseline"
-                    Message="This build does not route traffic yet." />
+                        <TextBox
+                            x:Name="GatewayHostBox"
+                            Header="Gateway IP / host"
+                            PlaceholderText="203.0.113.10" />
+
+                        <Button
+                            x:Name="ProbeButton"
+                            Content="Measure route"
+                            Click="ProbeButton_Click" />
+
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Padding="14" CornerRadius="12">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="PING" Opacity="0.65" />
+                                    <TextBlock
+                                        x:Name="PingValue"
+                                        Text="—"
+                                        FontSize="20"
+                                        FontWeight="SemiBold" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1" Padding="14" CornerRadius="12">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="JITTER" Opacity="0.65" />
+                                    <TextBlock
+                                        x:Name="JitterValue"
+                                        Text="—"
+                                        FontSize="20"
+                                        FontWeight="SemiBold" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="2" Padding="14" CornerRadius="12">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="LOSS" Opacity="0.65" />
+                                    <TextBlock
+                                        x:Name="LossValue"
+                                        Text="—"
+                                        FontSize="20"
+                                        FontWeight="SemiBold" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <InfoBar
+                            x:Name="ProbeStatus"
+                            IsOpen="True"
+                            IsClosable="False"
+                            Severity="Informational"
+                            Title="Ready"
+                            Message="Enter a BOOSTLAB gateway and measure UDP route quality." />
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Padding="22"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Text="Tunnel"
+                            FontWeight="SemiBold"
+                            FontSize="18" />
+                        <TextBlock
+                            Text="WireGuardNT integration follows after the Android gateway handshake is validated on the first real VPS."
+                            TextWrapping="Wrap"
+                            Opacity="0.72" />
+                        <InfoBar
+                            IsOpen="True"
+                            IsClosable="False"
+                            Severity="Informational"
+                            Title="Safe baseline"
+                            Message="This Windows build measures routes but does not route application traffic yet." />
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
+        </ScrollViewer>
     </Grid>
 </Window>
