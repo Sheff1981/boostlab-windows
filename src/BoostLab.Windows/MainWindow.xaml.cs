@@ -1,11 +1,13 @@
-using System.Windows;
+using Microsoft.UI.Xaml;
+using Windows.Graphics;
 
 namespace BoostLab.Client;
 
-public partial class MainWindow : Window
+public sealed partial class MainWindow : Window
 {
     public MainWindow()
     {
         InitializeComponent();
+        AppWindow.Resize(new SizeInt32(960, 640));
     }
 }
